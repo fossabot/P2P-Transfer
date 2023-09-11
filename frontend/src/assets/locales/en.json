@@ -1,0 +1,31 @@
+{
+  "about": {
+    "0": "Inspired by ",
+    "1": "Made with love by ",
+    "2": "GPL-3.0 License"
+  },
+  "button": {
+    "send_file": "Send File",
+    "receive_file": "Receive File",
+    "select": "Select",
+    "preview": "Preview",
+    "send": "Send",
+    "abort": "Abort"
+  },
+  "ui": {
+    "file_name": "File Name",
+    "file_size": "File Size",
+    "file_type": "File Type"
+  },
+  "status": {
+    "_": "Status",
+    "err": "Error",
+    "idle": "Idle",
+    "conn": "Connecting signal server",
+    "wait_p": "Waiting peer connection",
+    "wait_a": "Waiting accept transfering",
+    "negot": "Negotiating",
+    "trans": "Transfering",
+    "finish": "Finished"
+  }
+}

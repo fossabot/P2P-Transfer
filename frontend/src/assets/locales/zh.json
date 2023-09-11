@@ -1,0 +1,31 @@
+{
+  "about": {
+    "0": "灵感源自",
+    "1": "匠心之作",
+    "2": "GPL-3.0 许可证"
+  },
+  "button": {
+    "send_file": "发送文件",
+    "receive_file": "接收文件",
+    "select": "选择",
+    "preview": "预览",
+    "send": "发送",
+    "abort": "中止"
+  },
+  "ui": {
+    "file_name": "文件名",
+    "file_size": "文件大小",
+    "file_type": "文件类型"
+  },
+  "status": {
+    "_": "状态",
+    "err": "错误",
+    "idle": "空闲",
+    "conn": "正在连接信令服务器",
+    "wait_p": "等待对等方连接",
+    "wait_a": "等待对等方同意传输",
+    "negot": "正在协商 P2P 连接",
+    "trans": "正在传输",
+    "finish": "完成"
+  }
+}

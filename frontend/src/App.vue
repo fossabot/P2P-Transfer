@@ -1,71 +1,60 @@
 <script lang="ts" setup>
-import { isInternalBrowser } from '@/utils/browser';
+import { useI18n } from 'vue-i18n';
+import DarkModeToggle from './components/DarkModeToggle.vue';
+import LanguageSelector from './components/LanguageSelector.vue';
+import { setLocale, useLocalLocale } from './i18n';
+import { onBeforeMount } from 'vue';
+import Sender from './components/Sender.vue';
+import Receiver from './components/Receiver.vue';
+import About from './components/About.vue';
 
-/* Types */
-enum Mode {
-  None,
-  Send,
-  Receive
-}
+/* Constants */
+const version: string = __APP_VERSION__;
 
-/* Reactives */
-const mode: Ref<Mode> = ref(Mode.None);
-const peerId: Ref<string> = ref('');
+/* Injects */
+const i18n = useI18n();
+const localLocale = useLocalLocale();
 
 /* Life cycle */
 onBeforeMount((): void => {
-  detectLanguage();
-
-  if (isInternalBrowser()) {
-    return;
-  }
-
-  if (window.location.search.startsWith('?')) {
-    const firstPair: string = window.location.search.slice(1).split('&')[0];
-    const firstKey: string = firstPair.split('=')[0];
-
-    peerId.value = firstKey;
-    mode.value = Mode.Receive;
-  }
+  setLocale(localLocale.value, i18n);
 });
 </script>
 
 <template>
   <div
-    class="bg-neutral-100 fixed inset-0 transition-colors -z-50 dark:bg-neutral-900">
+    class="bg-neutral-50 fixed inset-0 transition-colors -z-50 dark:bg-neutral-900">
   </div>
-  <BlockLayer v-if="isInternalBrowser()"/>
-  <notifications position="top center"/>
-  <div class="fixed flex flex-col gap-20 inset-0 items-center justify-center">
-    <Header></Header>
-    <div class="flex flex-col gap-4">
-      <Button
-        @click="mode = Mode.Send"
-        class="border-blue-500 px-8 py-2 dark:hover:bg-blue-500 hover:bg-blue-500">
-        {{ $t('button.send_file') }}
-      </Button>
-      <Button
-        @click="mode = Mode.Receive"
-        class="border-green-500 px-8 py-2 dark:hover:bg-green-500 hover:bg-green-500">
-        {{ $t('button.recv_file') }}
-      </Button>
-    </div>
+  <div class="fixed flex flex-col gap-16 inset-0 items-center justify-center">
+    <header class="flex gap-4 items-center justify-center select-none">
+      <img class="h-16 w-16" draggable="false" src="/logo.svg"/>
+      <h1
+        class="font-bold font-smiley relative transition-colors dark:text-white">
+        <span class="text-4xl">P2P Transfer</span>
+        <span class="absolute -bottom-5 right-2">
+          {{ version }}
+        </span>
+      </h1>
+    </header>
+    <main class="flex flex-col gap-4 items-center justify-center">
+      <Sender/>
+      <Receiver/>
+    </main>
+    <footer class="bottom-4 fixed flex gap-4 items-center justify-center">
+      <About/>
+      <a
+        draggable="false"
+        href="https://github.com/SamuNatsu/P2P-Transfer"
+        rel="external"
+        target="_blank">
+        <img
+          class="h-6 transition-[filter] w-6 dark:invert"
+          draggable="false"
+          src="/imgs/github.svg"/>
+      </a>
+      <LanguageSelector/>
+      <DarkModeToggle/>
+    </footer>
   </div>
-  <Transition>
-    <Sender v-if="mode === Mode.Send" @close="mode = Mode.None"/>
-    <Receiver v-else-if="mode === Mode.Receive" @close="mode = Mode.None"/>
-  </Transition>
-  <Footer></Footer>
+  <notifications/>
 </template>
-
-<style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.2s;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-</style>
