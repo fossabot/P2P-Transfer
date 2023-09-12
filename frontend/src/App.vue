@@ -56,5 +56,5 @@ onBeforeMount((): void => {
       <DarkModeToggle/>
     </footer>
   </div>
-  <notifications/>
+  <notifications position="center top"/>
 </template>

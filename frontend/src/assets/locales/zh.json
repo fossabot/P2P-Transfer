@@ -10,12 +10,13 @@
     "select": "选择",
     "preview": "预览",
     "send": "发送",
-    "abort": "中止"
+    "abort": "中止",
+    "click_to_copy": "点击复制"
   },
-  "ui": {
-    "file_name": "文件名",
-    "file_size": "文件大小",
-    "file_type": "文件类型"
+  "notification": {
+    "qrcode_fail": "生成二维码失败",
+    "copy_ok": "复制成功",
+    "copy_fail": "复制失败"
   },
   "status": {
     "_": "状态",
@@ -27,5 +28,10 @@
     "negot": "正在协商 P2P 连接",
     "trans": "正在传输",
     "finish": "完成"
+  },
+  "ui": {
+    "file_name": "文件名",
+    "file_size": "文件大小",
+    "file_type": "文件类型"
   }
 }

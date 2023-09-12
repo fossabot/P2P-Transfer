@@ -18,7 +18,9 @@ export interface SenderStore {
   // States
   status: Ref<SenderStatus>;
   file: Ref<File | undefined>;
-  qrDataUrl: Ref<string | undefined>;
+  shareLink: Ref<string | undefined>;
+  hostId: Ref<string | undefined>;
+  peerId: Ref<string | undefined>;
   speed: Ref<number>;
   recvBytes: Ref<number>;
 
@@ -40,7 +42,9 @@ export const useSenderStore = createGlobalState((): SenderStore => {
   // States
   const status: Ref<SenderStatus> = ref(SenderStatus.Idle);
   const file: Ref<File | undefined> = ref();
-  const qrDataUrl: Ref<string | undefined> = ref();
+  const shareLink: Ref<string | undefined> = ref();
+  const hostId: Ref<string | undefined> = ref();
+  const peerId: Ref<string | undefined> = ref();
   const speed: Ref<number> = ref(0);
   const recvBytes: Ref<number> = ref(0);
 
@@ -83,7 +87,9 @@ export const useSenderStore = createGlobalState((): SenderStore => {
   function init(): void {
     status.value = SenderStatus.Idle;
     file.value = undefined;
-    qrDataUrl.value = undefined;
+    shareLink.value = undefined;
+    hostId.value = undefined;
+    peerId.value = undefined;
     speed.value = 0;
     recvBytes.value = 0;
   }
@@ -92,7 +98,9 @@ export const useSenderStore = createGlobalState((): SenderStore => {
   return {
     status,
     file,
-    qrDataUrl,
+    shareLink,
+    hostId,
+    peerId,
     speed,
     recvBytes,
     fileName,

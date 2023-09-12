@@ -5,16 +5,19 @@ import { SenderStatus, useSenderStore } from '@/stores/sender';
 import { Ref, ref } from 'vue';
 import FileSelector from './FileSelector.vue';
 import ProgressBar from './ProgressBar.vue';
+import QRCode from './QRCode.vue';
+import FilePreview from './FilePreview.vue';
 
 /* Injects */
 const {
   status,
   file,
+  hostId,
+  peerId,
   fileName,
   fileSize,
   fileSizeStr,
   fileType,
-  fileCanPreview,
   progress,
   init
 } = useSenderStore();
@@ -34,7 +37,6 @@ function fileChange(ev: Event): void {
 
   file.value = files[0];
   el.value = '';
-  status.value = SenderStatus.Transfering;
 }
 function beforeShowMenu(): void {
   init();
@@ -59,11 +61,7 @@ function beforeShowMenu(): void {
             id="file-input">
             {{ $t('button.select') }}
           </FileSelector>
-          <AppButton
-            v-if="fileCanPreview"
-            class="border-cyan-500 dark:hover:bg-cyan-500 hover:bg-cyan-500">
-            {{ $t('button.preview') }}
-          </AppButton>
+          <FilePreview/>
           <AppButton
             v-if="file !== undefined && status === SenderStatus.Idle"
             class="border-blue-500 dark:hover:bg-blue-500 hover:bg-blue-500">
@@ -77,7 +75,8 @@ function beforeShowMenu(): void {
         </div>
         <div
           v-if="file !== undefined"
-          class="flex items-center justify-center">
+          class="flex flex-col gap-4 items-center justify-center md:flex-row">
+          <QRCode/>
           <table>
             <tr>
               <th>{{ $t('ui.file_name') }}</th>
@@ -129,6 +128,14 @@ function beforeShowMenu(): void {
                 {{ $t('status.trans') }}
               </td>
               <td v-else class="text-green-500">{{ $t('status.finish') }}</td>
+            </tr>
+            <tr v-if="hostId !== undefined">
+              <th>{{ $t('ui.host_id') }}</th>
+              <td>{{ hostId }}</td>
+            </tr>
+            <tr v-if="peerId !== undefined">
+              <th>{{ $t('ui.peer_id') }}</th>
+              <td>{{ peerId }}</td>
             </tr>
             <tr v-if="status === SenderStatus.Transfering">
               <td class="pt-2" colspan="2">

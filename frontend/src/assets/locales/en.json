@@ -10,12 +10,13 @@
     "select": "Select",
     "preview": "Preview",
     "send": "Send",
-    "abort": "Abort"
+    "abort": "Abort",
+    "click_to_copy": "Click to Copy"
   },
-  "ui": {
-    "file_name": "File Name",
-    "file_size": "File Size",
-    "file_type": "File Type"
+  "notification": {
+    "qrcode_fail": "Fail to generate QR code",
+    "copy_ok": "Copy Success",
+    "copy_fail": "Copy Fail"
   },
   "status": {
     "_": "Status",
@@ -27,5 +28,12 @@
     "negot": "Negotiating",
     "trans": "Transfering",
     "finish": "Finished"
+  },
+  "ui": {
+    "file_name": "File Name",
+    "file_size": "File Size",
+    "file_type": "File Type",
+    "host_id": "Host ID",
+    "peer_id": "Peer ID"
   }
 }
