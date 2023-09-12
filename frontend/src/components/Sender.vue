@@ -14,12 +14,15 @@ const {
   file,
   hostId,
   peerId,
+  error,
   fileName,
   fileSize,
   fileSizeStr,
   fileType,
   progress,
-  init
+  init,
+  start,
+  abort
 } = useSenderStore();
 
 /* Reactive */
@@ -42,10 +45,16 @@ function beforeShowMenu(): void {
   init();
   showMenu.value = true;
 }
+function beforeCloseMenu(): void {
+  if (status.value > SenderStatus.Idle && status.value < SenderStatus.Finished) {
+    return;
+  }
+  showMenu.value = false;
+}
 </script>
 
 <template>
-  <PopUp @close="showMenu = false" :show-menu="showMenu" wrapper-class="z-10">
+  <PopUp @close="beforeCloseMenu" :show-menu="showMenu" wrapper-class="z-10">
     <template #default>
       <div
         class="bg-white flex flex-col gap-8 items-center justify-center p-4 rounded-lg z-20 dark:bg-neutral-900 dark:border dark:border-white dark:text-white">
@@ -64,11 +73,13 @@ function beforeShowMenu(): void {
           <FilePreview/>
           <AppButton
             v-if="file !== undefined && status === SenderStatus.Idle"
+            @click="start"
             class="border-blue-500 dark:hover:bg-blue-500 hover:bg-blue-500">
             {{ $t('button.send') }}
           </AppButton>
           <AppButton
             v-if="status > SenderStatus.Idle && status < SenderStatus.Finished"
+            @click="abort"
             class="border-red-500 dark:hover:bg-red-500 hover:bg-red-500">
             {{ $t('button.abort') }}
           </AppButton>
@@ -141,6 +152,9 @@ function beforeShowMenu(): void {
               <td class="pt-2" colspan="2">
                 <ProgressBar :progress="progress * 100"/>
               </td>
+            </tr>
+            <tr v-if="error !== undefined">
+              <th class="text-red-500" colspan="2">{{ $t(error) }}</th>
             </tr>
           </table>
         </div>

@@ -23,6 +23,7 @@ export interface SenderStore {
   peerId: Ref<string | undefined>;
   speed: Ref<number>;
   recvBytes: Ref<number>;
+  error: Ref<string | undefined>;
 
   // Getters
   fileName: ComputedRef<string>;
@@ -35,6 +36,8 @@ export interface SenderStore {
 
   // Actions
   init: () => void;
+  start: () => void;
+  abort: () => void;
 }
 
 /* Export sender status */
@@ -47,6 +50,7 @@ export const useSenderStore = createGlobalState((): SenderStore => {
   const peerId: Ref<string | undefined> = ref();
   const speed: Ref<number> = ref(0);
   const recvBytes: Ref<number> = ref(0);
+  const error: Ref<string | undefined> = ref();
 
   // Getters
   const fileName: ComputedRef<string> = computed((): string =>
@@ -92,6 +96,16 @@ export const useSenderStore = createGlobalState((): SenderStore => {
     peerId.value = undefined;
     speed.value = 0;
     recvBytes.value = 0;
+    error.value = undefined;
+  }
+  function start(): void {
+    status.value = SenderStatus.Connecting;
+    window.onbeforeunload = (): string => 'Sure to Exit?';
+  }
+  function abort(): void {
+    status.value = SenderStatus.Error;
+    error.value = 'error.abort';
+    window.onbeforeunload = null;
   }
 
   // Return
@@ -103,6 +117,7 @@ export const useSenderStore = createGlobalState((): SenderStore => {
     peerId,
     speed,
     recvBytes,
+    error,
     fileName,
     fileSize,
     fileSizeStr,
@@ -110,6 +125,8 @@ export const useSenderStore = createGlobalState((): SenderStore => {
     fileCanPreview,
     speedStr,
     progress,
-    init
+    init,
+    start,
+    abort
   };
 });
